@@ -1,0 +1,77 @@
+1. REF()
+Cú pháp:
+
+import { ref } from "vue";
+const count = ref(0);
+
+2. Computed
+
+ import { ref, computed } from "vue";
+  const doubleCount = computed(function() {
+ return count.value * 2;
+ });
+
+Tương tự ref nó là một hàm khai báo biến liên kết trực tiếp với biến ref mình khởi tạo nếu ref thay đổi => nó thay đổi
+
+
+II. Vòng đời
+1.
+ // Lifecycle Methods
+ onBeforeMount(() => {
+ console.log("onBeforeMount: The component is about to be 
+mounted in the DOM.");
+ });
+ onMounted(() => {
+ console.log("onMounted: The component has been mounted in 
+the DOM.");
+ });
+ onBeforeUpdate(() => {
+ console.log("onBeforeUpdate: The component is about to be 
+updated.");
+ });
+ onUpdated(() => {
+ console.log("onUpdated: The component has been updated.");
+ });
+ onBeforeUnmount(() => {
+ console.log("onBeforeUnmount: The component is about to be 
+unmounted.");
+ });
+ onUnmounted(() => {
+ console.log("onUnmounted: The component has been 
+unmounted.");
+ });
+
+ 2. customRef 
+ <script setup>
+ import { customRef } from 'vue';
+ // Maximum value not to be exceeded
+ const maximum = 10;
+ // Create a custom reference (customRef)
+ const count = customRef((track, trigger) => {
+ let value = 0;   // value will be the variable being tracked, 
+initialized here to 0.
+ return {
+ get() {
+ // Track the dependency when the value is read.
+ track();
+ 68
+Chapter 1  Day 1: Mastering CoMponents in Vue.js
+ return value;
+ },
+ set(newValue) {
+ // Update the value and trigger reactivity.
+ if (newValue <= maximum) value = newValue;
+ trigger();
+ }
+ };
+ });
+ function increment() {
+ count.value += 1;  // Increment the value of the variable.
+ }
+ function decrement() {
+ count.value -= 1;  // Decrement the value of the variable.
+ }
+
+ Đặc biệt hiểu quả trong việc kiểm soát giới hạn của các giá trị 
+
+
